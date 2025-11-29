@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Подарок — шаг 2</title>
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="form-card">
+      <h1>Ещё немного</h1>
+      <p>Угадай мой день рождения</p>
+      <form id="dateForm">
+        <input id="dateInput" name="bday" type="date" required />
+        <button type="submit">Показать открытку</button>
+      </form>
+      <button id="backBtn" class="link-btn">← Назад</button>
+      <div id="error" class="error" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <script>
+    // ожидаемая дата в формате YYYY-MM-DD
+    var EXPECTED_DATE = '2011-08-01';
+
+    // если имени нет (или оно не правильное), отправляем назад
+    if(!localStorage.getItem('guestName')) {
+      location.href = 'index.html';
+    }
+
+    var dateForm = document.getElementById('dateForm');
+    var dateInput = document.getElementById('dateInput');
+    var backBtn = document.getElementById('backBtn');
+    var errorEl = document.getElementById('error');
+
+    backBtn.addEventListener('click', function(){
+      location.href = 'index.html';
+    });
+
+    dateForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var v = (dateInput.value || '').trim();
+      if(v === EXPECTED_DATE) {
+        localStorage.setItem('guestBirthday', v);
+        location.href = 'card.html';
+      } else {
+        errorEl.textContent = 'Не угадала — попробуй снова.';
+        dateInput.classList.add('shake');
+        setTimeout(function(){ dateInput.classList.remove('shake'); }, 500);
+      }
+    });
+
+    dateInput.addEventListener('input', function(){ errorEl.textContent = ''; });
+  </script>
+</body>
+</html>

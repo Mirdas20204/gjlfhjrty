@@ -1,0 +1,292 @@
+/* Общие стили и центрирование */
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,#fde2e2,#fff7f0);
+    font-family: sans-serif;
+}
+
+/* Сцена с перспективой */
+.scene {
+    perspective: 1000px;
+    margin-top:6px;
+}
+
+/* Карточка и внутренний контейнер для 3D-переворота */
+.card {
+    width: 320px;
+    height: 200px;
+}
+.card__inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 700ms cubic-bezier(.2,.8,.2,1);
+    cursor: pointer;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Стороны карточки */
+.card__front,
+.card__back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    backface-visibility: hidden;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+/* Лицевая сторона */
+.card__front {
+    background: linear-gradient(135deg,#ff6b8a,#ffb199);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+/* Внутренняя сторона (обратная) */
+.card__back {
+    background: #fff;
+    transform: rotateX(180deg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction: column;
+    gap: 10px;
+    color: #333;
+}
+
+/* Поведение при открытии: переворот */
+.card.open .card__inner {
+    transform: rotateX(180deg);
+}
+
+/* Текст внутри */
+.front-text { padding: 10px; }
+.message { font-size: 18px; }
+
+/* Сердечко — здесь используем emoji для простоты */
+.heart {
+    font-size: 48px;
+    transform-origin: center;
+    transform: translateY(6px) scale(0.2);
+    opacity: 0;
+    transition: transform 400ms cubic-bezier(.2,.8,.2,1), opacity 300ms;
+}
+
+/* Класс, который добавляется при открытии — "поп" эффект + плавающая анимация */
+.heart.pop {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: floatUp 2s ease-in-out forwards;
+}
+
+/* Анимация плавного подъема и небольшого колебания */
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity:1; }
+    40% { transform: translateY(-18px) scale(1.05); }
+    70% { transform: translateY(-8px) scale(0.98); }
+    100% { transform: translateY(-36px) scale(0.95); opacity: 0.95; }
+}
+
+/* Стили для многостраничной формы и общего лэйаута */
+.page-wrap {
+    min-height: 100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:20px;
+    padding:20px;
+    box-sizing: border-box;
+}
+
+/* форма- карточка для ввода */
+.form-card {
+    width: 320px;
+    background: linear-gradient(180deg,#fff,#fffaf0);
+    border-radius:12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    padding:20px;
+    text-align:center;
+    font-family: sans-serif;
+}
+
+.form-card h1 { margin:0 0 8px 0; font-size:20px; }
+.form-card p { margin:0 0 12px 0; color:#555; }
+
+.form-card input[type="text"],
+.form-card input[type="date"]{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #e5e5e5;
+    margin-bottom:12px;
+    box-sizing:border-box;
+    font-size:15px;
+}
+
+.form-card button {
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border: none;
+    background: linear-gradient(90deg,#ff8aa0,#ffb199);
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.link-btn {
+    margin-top:10px;
+    background:transparent;
+    border:none;
+    color:#6b6b6b;
+    cursor:pointer;
+    text-decoration:underline;
+}
+
+/* header row on card page */
+.header-row {
+    width: 320px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:6px;
+}
+
+.greeting { font-weight:700; color:#333; }
+
+.controls .small {
+    padding:6px 8px;
+    font-size:13px;
+    border-radius:8px;
+    border:1px solid rgba(0,0,0,0.08);
+    background:#fff;
+    cursor:pointer;
+}
+
+/* Сообщение об ошибке */
+.error {
+    margin-top: 8px;
+    color: #b00020;
+    font-size: 14px;
+    min-height: 18px;
+}
+
+/* Лёгкая анимация для неверного ввода */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 480ms ease;
+}
+
+/* Responsive tweaks for small screens */
+@media (max-width: 480px) {
+  /* общий контейнер */
+  .page-wrap {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  /* формы и заголовки */
+  .form-card,
+  .header-row {
+    width: 100%;
+    max-width: 360px;
+    box-sizing: border-box;
+  }
+
+  .form-card {
+    padding: 14px;
+  }
+
+  .form-card h1 { font-size: 18px; }
+  .form-card p { font-size: 14px; }
+  .form-card input[type="text"],
+  .form-card input[type="date"]{
+    padding: 9px;
+    font-size: 14px;
+  }
+  .form-card button {
+    padding: 9px;
+    font-size: 14px;
+  }
+
+  /* заголовок карточки */
+  .greeting { font-size: 18px; }
+
+  /* карточка */
+  .scene { margin-top: 8px; }
+  .card {
+    width: 280px;
+    height: 160px;
+  }
+  .card__inner {
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  }
+
+  .card__front { font-size: 18px; }
+  .front-text { font-size: 15px; padding:8px; }
+
+  .card__back { gap: 8px; }
+  .message { font-size: 15px; }
+
+  .heart {
+    font-size: 44px;
+    transform: translateY(4px) scale(0.9);
+  }
+  .heart.pop { animation-duration: 1.8s; }
+}
+
+@media (max-width: 360px) {
+  .page-wrap { padding: 10px; gap: 10px; }
+
+  .form-card, .header-row { max-width: 320px; }
+  .form-card h1 { font-size: 16px; }
+  .form-card p { font-size: 13px; }
+  .form-card input[type="text"],
+  .form-card input[type="date"] { font-size: 13px; padding: 8px; }
+  .form-card button { font-size: 13px; padding: 8px; }
+
+  .greeting { font-size: 16px; }
+
+  .card {
+    width: 240px;
+    height: 140px;
+  }
+  .card__inner { border-radius: 10px; }
+  .card__front { font-size: 16px; }
+  .front-text { font-size: 14px; }
+  .message { font-size: 14px; }
+  .heart { font-size: 38px; transform: translateY(2px) scale(0.9); }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 320px) {
+  .card { width: 210px; height: 125px; }
+  .heart { font-size: 34px; }
+  .form-card { padding: 8px; }
+  .form-card input[type="text"], .form-card input[type="date"] { padding: 7px; }
+  .form-card button { padding: 7px; }
+}
